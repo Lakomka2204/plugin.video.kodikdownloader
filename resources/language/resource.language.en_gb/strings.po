@@ -283,3 +283,27 @@ msgstr ""
 msgctxt "#30228"
 msgid "This episode is not available in any voice-over."
 msgstr ""
+
+msgctxt "#30009"
+msgid "Previous page"
+msgstr ""
+
+msgctxt "#30143"
+msgid "Ask voice-over for every episode"
+msgstr ""
+
+msgctxt "#30144"
+msgid "Per-episode screenshots (Kodik)"
+msgstr ""
+
+msgctxt "#30229"
+msgid "Licensed by: {}"
+msgstr ""
+
+msgctxt "#30230"
+msgid "Aired: {}"
+msgstr ""
+
+msgctxt "#30231"
+msgid "Choose default voice-over"
+msgstr ""

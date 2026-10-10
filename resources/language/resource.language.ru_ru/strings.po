@@ -283,3 +283,27 @@ msgstr "озвучек: {}"
 msgctxt "#30228"
 msgid "This episode is not available in any voice-over."
 msgstr "Этой серии нет ни в одной озвучке."
+
+msgctxt "#30009"
+msgid "Previous page"
+msgstr "Предыдущая страница"
+
+msgctxt "#30143"
+msgid "Ask voice-over for every episode"
+msgstr "Спрашивать озвучку для каждой серии"
+
+msgctxt "#30144"
+msgid "Per-episode screenshots (Kodik)"
+msgstr "Кадры для каждой серии (Kodik)"
+
+msgctxt "#30229"
+msgid "Licensed by: {}"
+msgstr "Лицензировано: {}"
+
+msgctxt "#30230"
+msgid "Aired: {}"
+msgstr "Выход: {}"
+
+msgctxt "#30231"
+msgid "Choose default voice-over"
+msgstr "Выбрать озвучку по умолчанию"

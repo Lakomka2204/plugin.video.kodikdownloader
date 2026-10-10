@@ -64,6 +64,11 @@ def get_anime(anime_id):
     return _get('/api/animes/%s' % anime_id)
 
 
+def get_roles(anime_id):
+    """Characters and staff of an anime (separate request, cached like the rest)."""
+    return _get('/api/animes/%s/roles' % anime_id)
+
+
 def image_url(a):
     img = ((a or {}).get('image') or {}).get('original') or ''
     if img.startswith('/'):

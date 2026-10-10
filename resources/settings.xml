@@ -102,6 +102,16 @@
           <default>false</default>
           <control type="toggle"/>
         </setting>
+        <setting id="voice_ask" type="boolean" label="30143">
+          <level>0</level>
+          <default>false</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="episode_shots" type="boolean" label="30144">
+          <level>0</level>
+          <default>true</default>
+          <control type="toggle"/>
+        </setting>
       </group>
     </category>
     <category id="advanced" label="30121">

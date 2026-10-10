@@ -63,6 +63,8 @@ def build_entries(results):
             'sub': bool(is_sub),
             'episodes': episodes,
             'movie_link': movie_link,
+            # per search result (title), NOT per episode; may be missing in old cache entries
+            'screenshots': [x for x in (r.get('screenshots') or []) if isinstance(x, str) and x],
         }
         old = out.get(entry['id'])
         if old is None or len(entry['episodes']) > len(old['episodes']):
@@ -72,7 +74,8 @@ def build_entries(results):
 
 def get_entries(shiki_id):
     key = 'kodik:%s' % shiki_id
-    cached = cache.get(key, 300)
+    # play() reads this again to find the voice-overs of an episode, so keep it at least 10 minutes
+    cached = cache.get(key, max(utils.get_int('cache_ttl', 30) * 60, 600))
     if cached is not None:
         utils.debug('kodik search cache HIT for shikimori_id=%s (%d entries)' % (shiki_id, len(cached)))
         return cached
