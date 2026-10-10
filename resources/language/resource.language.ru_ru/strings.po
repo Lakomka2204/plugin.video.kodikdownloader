@@ -1,0 +1,230 @@
+# Kodi strings
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ru_RU\n"
+
+msgctxt "#30001"
+msgid "Ongoing"
+msgstr "Онгоинги"
+
+msgctxt "#30002"
+msgid "Announced"
+msgstr "Анонсы"
+
+msgctxt "#30003"
+msgid "Top rated"
+msgstr "Топ по рейтингу"
+
+msgctxt "#30004"
+msgid "By season"
+msgstr "По сезонам"
+
+msgctxt "#30005"
+msgid "Search"
+msgstr "Поиск"
+
+msgctxt "#30006"
+msgid "Settings"
+msgstr "Настройки"
+
+msgctxt "#30007"
+msgid "Next page"
+msgstr "Далее"
+
+msgctxt "#30011"
+msgid "Winter"
+msgstr "Зима"
+
+msgctxt "#30012"
+msgid "Spring"
+msgstr "Весна"
+
+msgctxt "#30013"
+msgid "Summer"
+msgstr "Лето"
+
+msgctxt "#30014"
+msgid "Fall"
+msgstr "Осень"
+
+msgctxt "#30100"
+msgid "General"
+msgstr "Общие"
+
+msgctxt "#30101"
+msgid "Shikimori domain"
+msgstr "Домен Shikimori"
+
+msgctxt "#30102"
+msgid "Custom domain (overrides the list)"
+msgstr "Свой домен (приоритет над списком)"
+
+msgctxt "#30103"
+msgid "Title language"
+msgstr "Язык названий"
+
+msgctxt "#30104"
+msgid "Russian"
+msgstr "Русский"
+
+msgctxt "#30105"
+msgid "Romaji"
+msgstr "Ромадзи"
+
+msgctxt "#30106"
+msgid "Items per page"
+msgstr "Элементов на странице"
+
+msgctxt "#30107"
+msgid "Cache lifetime (minutes)"
+msgstr "Время жизни кэша (минуты)"
+
+msgctxt "#30108"
+msgid "Clear cache"
+msgstr "Очистить кэш"
+
+msgctxt "#30109"
+msgid "18+ content"
+msgstr "Контент 18+"
+
+msgctxt "#30110"
+msgid "Show 18+ content"
+msgstr "Показывать контент 18+"
+
+msgctxt "#30111"
+msgid "PIN code (4 digits, empty = off)"
+msgstr "PIN-код (4 цифры, пусто = выкл.)"
+
+msgctxt "#30112"
+msgid "Kodik"
+msgstr "Kodik"
+
+msgctxt "#30113"
+msgid "Kodik API token"
+msgstr "Токен Kodik API"
+
+msgctxt "#30114"
+msgid "Kodik API address"
+msgstr "Адрес Kodik API"
+
+msgctxt "#30115"
+msgid "Playback"
+msgstr "Воспроизведение"
+
+msgctxt "#30116"
+msgid "Default quality"
+msgstr "Качество по умолчанию"
+
+msgctxt "#30117"
+msgid "Ask every time"
+msgstr "Спрашивать каждый раз"
+
+msgctxt "#30118"
+msgid "Highest available"
+msgstr "Максимальное"
+
+msgctxt "#30119"
+msgid "Use InputStream Adaptive"
+msgstr "Использовать InputStream Adaptive"
+
+msgctxt "#30120"
+msgid "Debug logging"
+msgstr "Отладочный лог"
+
+msgctxt "#30121"
+msgid "Advanced"
+msgstr "Дополнительно"
+
+msgctxt "#30122"
+msgid "Extra stream headers (Name=Value&Name2=Value2)"
+msgstr "Доп. заголовки потока (Name=Value&Name2=Value2)"
+
+msgctxt "#30130"
+msgid "360p"
+msgstr "360p"
+
+msgctxt "#30131"
+msgid "480p"
+msgstr "480p"
+
+msgctxt "#30132"
+msgid "720p"
+msgstr "720p"
+
+msgctxt "#30133"
+msgid "1080p"
+msgstr "1080p"
+
+msgctxt "#30200"
+msgid "Select voice-over or subtitles"
+msgstr "Выберите озвучку или субтитры"
+
+msgctxt "#30201"
+msgid "SUB"
+msgstr "СУБ"
+
+msgctxt "#30202"
+msgid "Sorry, this anime is not available (no voice-over or subtitles found)."
+msgstr "Извините, аниме недоступно (озвучек и субтитров не найдено)."
+
+msgctxt "#30203"
+msgid "Select quality"
+msgstr "Выберите качество"
+
+msgctxt "#30204"
+msgid "Kodik API token is not set. Open settings?"
+msgstr "Токен Kodik API не задан. Открыть настройки?"
+
+msgctxt "#30205"
+msgid "Network error"
+msgstr "Ошибка сети"
+
+msgctxt "#30206"
+msgid "Enter PIN"
+msgstr "Введите PIN"
+
+msgctxt "#30207"
+msgid "Wrong PIN"
+msgstr "Неверный PIN"
+
+msgctxt "#30208"
+msgid "Episode {}"
+msgstr "Серия {}"
+
+msgctxt "#30209"
+msgid "Movie"
+msgstr "Фильм"
+
+msgctxt "#30210"
+msgid "Voice-over"
+msgstr "Озвучка"
+
+msgctxt "#30211"
+msgid "Could not get the video link"
+msgstr "Не удалось получить ссылку на видео"
+
+msgctxt "#30212"
+msgid "Cache cleared"
+msgstr "Кэш очищен"
+
+msgctxt "#30213"
+msgid "Search anime"
+msgstr "Поиск аниме"
+
+msgctxt "#30214"
+msgid "Nothing found"
+msgstr "Ничего не найдено"
+
+msgctxt "#30216"
+msgid "Kodik rejected the request (HTTP {}). Check your token."
+msgstr "Kodik отклонил запрос (HTTP {}). Проверьте токен."
+
+msgctxt "#30217"
+msgid "ep."
+msgstr "сер."
+
+msgctxt "#30218"
+msgid "Clear the cache?"
+msgstr "Очистить кэш?"
+

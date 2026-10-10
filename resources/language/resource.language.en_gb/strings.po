@@ -1,0 +1,230 @@
+# Kodi strings
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en_GB\n"
+
+msgctxt "#30001"
+msgid "Ongoing"
+msgstr ""
+
+msgctxt "#30002"
+msgid "Announced"
+msgstr ""
+
+msgctxt "#30003"
+msgid "Top rated"
+msgstr ""
+
+msgctxt "#30004"
+msgid "By season"
+msgstr ""
+
+msgctxt "#30005"
+msgid "Search"
+msgstr ""
+
+msgctxt "#30006"
+msgid "Settings"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Next page"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Winter"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Spring"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Summer"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Fall"
+msgstr ""
+
+msgctxt "#30100"
+msgid "General"
+msgstr ""
+
+msgctxt "#30101"
+msgid "Shikimori domain"
+msgstr ""
+
+msgctxt "#30102"
+msgid "Custom domain (overrides the list)"
+msgstr ""
+
+msgctxt "#30103"
+msgid "Title language"
+msgstr ""
+
+msgctxt "#30104"
+msgid "Russian"
+msgstr ""
+
+msgctxt "#30105"
+msgid "Romaji"
+msgstr ""
+
+msgctxt "#30106"
+msgid "Items per page"
+msgstr ""
+
+msgctxt "#30107"
+msgid "Cache lifetime (minutes)"
+msgstr ""
+
+msgctxt "#30108"
+msgid "Clear cache"
+msgstr ""
+
+msgctxt "#30109"
+msgid "18+ content"
+msgstr ""
+
+msgctxt "#30110"
+msgid "Show 18+ content"
+msgstr ""
+
+msgctxt "#30111"
+msgid "PIN code (4 digits, empty = off)"
+msgstr ""
+
+msgctxt "#30112"
+msgid "Kodik"
+msgstr ""
+
+msgctxt "#30113"
+msgid "Kodik API token"
+msgstr ""
+
+msgctxt "#30114"
+msgid "Kodik API address"
+msgstr ""
+
+msgctxt "#30115"
+msgid "Playback"
+msgstr ""
+
+msgctxt "#30116"
+msgid "Default quality"
+msgstr ""
+
+msgctxt "#30117"
+msgid "Ask every time"
+msgstr ""
+
+msgctxt "#30118"
+msgid "Highest available"
+msgstr ""
+
+msgctxt "#30119"
+msgid "Use InputStream Adaptive"
+msgstr ""
+
+msgctxt "#30120"
+msgid "Debug logging"
+msgstr ""
+
+msgctxt "#30121"
+msgid "Advanced"
+msgstr ""
+
+msgctxt "#30122"
+msgid "Extra stream headers (Name=Value&Name2=Value2)"
+msgstr ""
+
+msgctxt "#30130"
+msgid "360p"
+msgstr ""
+
+msgctxt "#30131"
+msgid "480p"
+msgstr ""
+
+msgctxt "#30132"
+msgid "720p"
+msgstr ""
+
+msgctxt "#30133"
+msgid "1080p"
+msgstr ""
+
+msgctxt "#30200"
+msgid "Select voice-over or subtitles"
+msgstr ""
+
+msgctxt "#30201"
+msgid "SUB"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Sorry, this anime is not available (no voice-over or subtitles found)."
+msgstr ""
+
+msgctxt "#30203"
+msgid "Select quality"
+msgstr ""
+
+msgctxt "#30204"
+msgid "Kodik API token is not set. Open settings?"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Network error"
+msgstr ""
+
+msgctxt "#30206"
+msgid "Enter PIN"
+msgstr ""
+
+msgctxt "#30207"
+msgid "Wrong PIN"
+msgstr ""
+
+msgctxt "#30208"
+msgid "Episode {}"
+msgstr ""
+
+msgctxt "#30209"
+msgid "Movie"
+msgstr ""
+
+msgctxt "#30210"
+msgid "Voice-over"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Could not get the video link"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Cache cleared"
+msgstr ""
+
+msgctxt "#30213"
+msgid "Search anime"
+msgstr ""
+
+msgctxt "#30214"
+msgid "Nothing found"
+msgstr ""
+
+msgctxt "#30216"
+msgid "Kodik rejected the request (HTTP {}). Check your token."
+msgstr ""
+
+msgctxt "#30217"
+msgid "ep."
+msgstr ""
+
+msgctxt "#30218"
+msgid "Clear the cache?"
+msgstr ""
+
