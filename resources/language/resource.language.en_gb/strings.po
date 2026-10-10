@@ -271,3 +271,15 @@ msgstr ""
 msgctxt "#30225"
 msgid "Play from beginning"
 msgstr ""
+
+msgctxt "#30226"
+msgid "Not selected yet"
+msgstr ""
+
+msgctxt "#30227"
+msgid "{} voice-overs"
+msgstr ""
+
+msgctxt "#30228"
+msgid "This episode is not available in any voice-over."
+msgstr ""

@@ -271,3 +271,15 @@ msgstr "Отметить всё до этой серии"
 msgctxt "#30225"
 msgid "Play from beginning"
 msgstr "Смотреть сначала"
+
+msgctxt "#30226"
+msgid "Not selected yet"
+msgstr "Не выбрана"
+
+msgctxt "#30227"
+msgid "{} voice-overs"
+msgstr "озвучек: {}"
+
+msgctxt "#30228"
+msgid "This episode is not available in any voice-over."
+msgstr "Этой серии нет ни в одной озвучке."
