@@ -39,6 +39,12 @@
           <constraints><allowempty>true</allowempty></constraints>
           <control type="button" format="action"><close>false</close></control>
         </setting>
+        <setting id="clear_watched" type="action" label="30142">
+          <level>0</level>
+          <data>RunPlugin(plugin://plugin.video.kodikdownloader/?action=clear_watched)</data>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="button" format="action"><close>false</close></control>
+        </setting>
       </group>
     </category>
     <category id="adult" label="30109">
@@ -83,6 +89,17 @@
         <setting id="use_isa" type="boolean" label="30119">
           <level>0</level>
           <default>true</default>
+          <control type="toggle"/>
+        </setting>
+        <setting id="watched_threshold" type="integer" label="30140">
+          <level>0</level>
+          <default>85</default>
+          <constraints><minimum>50</minimum><step>5</step><maximum>100</maximum></constraints>
+          <control type="slider" format="percentage"><popup>false</popup></control>
+        </setting>
+        <setting id="autoplay_next" type="boolean" label="30141">
+          <level>0</level>
+          <default>false</default>
           <control type="toggle"/>
         </setting>
       </group>

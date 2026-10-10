@@ -228,3 +228,46 @@ msgctxt "#30218"
 msgid "Clear the cache?"
 msgstr "Очистить кэш?"
 
+msgctxt "#30008"
+msgid "Continue watching"
+msgstr "Продолжить просмотр"
+
+msgctxt "#30140"
+msgid "Mark as watched at (%)"
+msgstr "Считать серию просмотренной с (%)"
+
+msgctxt "#30141"
+msgid "Auto-play next episode"
+msgstr "Автопереход на следующую серию"
+
+msgctxt "#30142"
+msgid "Clear watch history"
+msgstr "Очистить историю просмотра"
+
+msgctxt "#30219"
+msgid "Clear all watch history?"
+msgstr "Очистить всю историю просмотра?"
+
+msgctxt "#30220"
+msgid "Watch history cleared"
+msgstr "История просмотра очищена"
+
+msgctxt "#30221"
+msgid "Continue from episode {}"
+msgstr "Продолжить с {}-й серии"
+
+msgctxt "#30222"
+msgid "Mark as watched"
+msgstr "Отметить просмотренной"
+
+msgctxt "#30223"
+msgid "Mark as unwatched"
+msgstr "Снять отметку"
+
+msgctxt "#30224"
+msgid "Mark watched up to here"
+msgstr "Отметить всё до этой серии"
+
+msgctxt "#30225"
+msgid "Play from beginning"
+msgstr "Смотреть сначала"

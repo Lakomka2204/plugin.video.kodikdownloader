@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.kodikdownloader" name="Kodik Downloader" version="0.1.1" provider-name="personal">
+<addon id="plugin.video.kodikdownloader" name="Kodik Downloader" version="0.2.0" provider-name="personal">
   <requires>
     <import addon="xbmc.python" version="3.0.1"/>
     <import addon="script.module.requests" version="2.27.1"/>
@@ -8,6 +8,7 @@
   <extension point="xbmc.python.pluginsource" library="main.py">
     <provides>video</provides>
   </extension>
+  <extension point="xbmc.service" library="service.py"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Shikimori catalog with Kodik playback</summary>
     <description lang="en_GB">Browse anime on Shikimori and watch it through Kodik. Requires your own Kodik API token.</description>

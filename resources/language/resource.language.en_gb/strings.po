@@ -228,3 +228,46 @@ msgctxt "#30218"
 msgid "Clear the cache?"
 msgstr ""
 
+msgctxt "#30008"
+msgid "Continue watching"
+msgstr ""
+
+msgctxt "#30140"
+msgid "Mark as watched at (%)"
+msgstr ""
+
+msgctxt "#30141"
+msgid "Auto-play next episode"
+msgstr ""
+
+msgctxt "#30142"
+msgid "Clear watch history"
+msgstr ""
+
+msgctxt "#30219"
+msgid "Clear all watch history?"
+msgstr ""
+
+msgctxt "#30220"
+msgid "Watch history cleared"
+msgstr ""
+
+msgctxt "#30221"
+msgid "Continue from episode {}"
+msgstr ""
+
+msgctxt "#30222"
+msgid "Mark as watched"
+msgstr ""
+
+msgctxt "#30223"
+msgid "Mark as unwatched"
+msgstr ""
+
+msgctxt "#30224"
+msgid "Mark watched up to here"
+msgstr ""
+
+msgctxt "#30225"
+msgid "Play from beginning"
+msgstr ""
