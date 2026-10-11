@@ -291,3 +291,59 @@ msgstr "Выход: {}"
 msgctxt "#30231"
 msgid "Choose default voice-over"
 msgstr "Выбрать озвучку по умолчанию"
+
+msgctxt "#30145"
+msgid "Quality selection"
+msgstr "Выбор качества"
+
+msgctxt "#30146"
+msgid "In video settings (stream list)"
+msgstr "В настройках видео (список потоков)"
+
+msgctxt "#30147"
+msgid "Ask before playing"
+msgstr "Спрашивать перед просмотром"
+
+msgctxt "#30232"
+msgid "Switch while playing"
+msgstr "Переключение во время просмотра"
+
+msgctxt "#30233"
+msgid "Voice-over"
+msgstr "Озвучка"
+
+msgctxt "#30234"
+msgid "Quality"
+msgstr "Качество"
+
+msgctxt "#30235"
+msgid "Nothing from this addon is playing"
+msgstr "Сейчас ничего из этого аддона не играет"
+
+msgctxt "#30236"
+msgid "Set up remote shortcut"
+msgstr "Настроить кнопку пульта"
+
+msgctxt "#30237"
+msgid "Remove remote shortcut"
+msgstr "Убрать кнопку пульта"
+
+msgctxt "#30238"
+msgid "Press the remote button for switching voice-over. Back cancels."
+msgstr "Нажмите кнопку пульта для переключения озвучки. «Назад» отменяет."
+
+msgctxt "#30239"
+msgid "Shortcut set (button code {})"
+msgstr "Кнопка назначена (код {})"
+
+msgctxt "#30240"
+msgid "No button pressed"
+msgstr "Кнопка не нажата"
+
+msgctxt "#30241"
+msgid "Shortcut removed"
+msgstr "Кнопка убрана"
+
+msgctxt "#30242"
+msgid "Only one voice-over has this episode"
+msgstr "У этой серии только одна озвучка"

@@ -6,7 +6,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
-from . import utils, cache, kodik, watched, info
+from . import utils, cache, kodik, watched, info, master, keymap
 from . import shikimori as shiki
 from .utils import tr, url, HANDLE, debug
 
@@ -412,19 +412,27 @@ def _pick_quality(links):
     return min(available, key=lambda q: (abs(q - pref), q))  # closest, ties -> lower
 
 
-def _stream_item(stream, title):
+def _use_isa():
+    isa_installed = xbmc.getCondVisibility('System.AddonIsEnabled(inputstream.adaptive)')
+    use_isa = utils.get_bool('use_isa', True) and isa_installed
+    debug('use_isa setting=%s installed=%s -> %s' % (utils.get_bool('use_isa', True), isa_installed, use_isa))
+    return use_isa
+
+
+def _stream_item(stream, title, manual=False):
+    """manual=True: `stream` is our master playlist and ISA lets the user pick the quality in Video Settings."""
     li = xbmcgui.ListItem(label=title, path=stream)
     if title:
         li.getVideoInfoTag().setTitle(title)
     headers = utils.get_str('stream_headers').strip()
-    isa_installed = xbmc.getCondVisibility('System.AddonIsEnabled(inputstream.adaptive)')
-    use_isa = utils.get_bool('use_isa', True) and isa_installed
-    debug('use_isa setting=%s installed=%s -> %s; headers=%r' % (utils.get_bool('use_isa', True), isa_installed,
-                                                                  use_isa, headers))
+    use_isa = _use_isa()
+    debug('stream item: manual=%s headers=%r' % (manual, headers))
     if use_isa:
         li.setProperty('inputstream', 'inputstream.adaptive')
-        li.setMimeType('application/x-mpegURL')
+        li.setMimeType('application/vnd.apple.mpegurl')
         li.setContentLookup(False)
+        if manual:
+            li.setProperty('inputstream.adaptive.stream_selection_type', 'manual-osd')
         if headers:
             li.setProperty('inputstream.adaptive.manifest_headers', headers)
             li.setProperty('inputstream.adaptive.stream_headers', headers)
@@ -433,15 +441,19 @@ def _stream_item(stream, title):
     return li
 
 
-def _track(p):
-    """Tell the service what is about to play: it keeps the marks and the resume point."""
+def _track(p, fallback=None, seek_to=None, q=None):
+    """Tell the service what is about to play: it keeps the marks, can seek and can fall back."""
     if not (p.get('sid') and p.get('num')):
         debug('track: no sid/num in params, marks skipped')
         return
-    rec = watched.get_ep(p['sid'], p['num'])
-    resume = 0 if (p.get('fresh') or rec.get('w')) else int(rec.get('pos', 0))
     now = {'sid': str(p['sid']), 'tid': str(p.get('tid', '')), 'season': int(p.get('season') or 1),
-           'num': int(p['num']), 'resume': resume}
+           'num': int(p['num']), 'title': p.get('title', ''), 'movie': 1 if p.get('movie') else 0}
+    if fallback:
+        now['fallback'] = fallback  # the service plays this if the master playlist fails to open
+    if seek_to:
+        now['seek_to'] = int(seek_to)  # after a voice/quality switch: continue from here
+    if q:
+        now['q'] = int(q)  # single-stream mode: the quality in use
     watched.set_now(now)
     watched.touch(p['sid'], p['num'])
     debug('track: %s' % now)
@@ -478,6 +490,42 @@ def _voice_for(p):
     return cands[choice]
 
 
+def _fallback_quality(links):
+    """Quality for the single-stream retry (no dialogs): the default quality setting, else the best."""
+    available = sorted(links)
+    pref = utils.get_int('default_quality', 0)
+    if pref in (0, 9999):
+        return available[-1]
+    return min(available, key=lambda q: (abs(q - pref), q))
+
+
+def fallback_item(rec):
+    """Service: the master playlist failed to open, build the plain single-quality item instead."""
+    fb = rec['fallback']
+    li = _stream_item(fb['url'], fb['title'])
+    _track({'sid': rec['sid'], 'tid': rec['tid'], 'season': rec['season'], 'num': rec['num'],
+            'title': rec.get('title', ''), 'movie': rec.get('movie')})
+    debug('fallback_item: %s' % fb['url'])
+    return li
+
+
+def _make_item(links, title, q=None):
+    """Item for resolved links: a master playlist (qualities in Video Settings) or one quality.
+    Returns (item, fallback or None, quality or None); item is None if the user cancelled."""
+    if q is None and utils.get_int('quality_mode', 0) == 0 and len(links) > 1 and _use_isa():
+        url_ = master.publish(links)
+        if url_:
+            fb = _fallback_quality(links)
+            debug('master playlist %s, qualities=%s, fallback %dp' % (url_, sorted(links), fb))
+            return _stream_item(url_, title, manual=True), {'url': links[fb], 'title': title}, None
+    if q is None:
+        q = _pick_quality(links)
+        if q is None:
+            return None, None, None
+    debug('chosen %dp: %s' % (q, links[q]))
+    return _stream_item(links[q], title), None, q
+
+
 def play(p):
     debug('play: title=%r params=%s' % (p.get('title'), {k: v for k, v in p.items() if k != 'title'}))
     link = p.get('link')  # legacy URLs (older bookmarks) carry the link itself
@@ -505,16 +553,86 @@ def play(p):
         xbmcgui.Dialog().ok(utils.NAME, tr(30211))
         _fail_play()
         return
-    q = _pick_quality(links)
-    if q is None:
+    li, fb, q = _make_item(links, p.get('title', ''))
+    if li is None:
         _fail_play()
         return
-    stream = links[q]
-    debug('chosen %dp: %s' % (q, stream))
-    li = _stream_item(stream, p.get('title', ''))
-    _track(p)
+    _track(p, fallback=fb, q=q)
     debug('setResolvedUrl(True) path=%s' % li.getPath())
     xbmcplugin.setResolvedUrl(HANDLE, True, li)
+
+
+def _closest(available, pref):
+    return min(available, key=lambda q: (abs(q - pref), q))  # ties -> lower
+
+
+def switch(p):
+    """Run by the remote-button shortcut during playback: change the voice-over (in 'ask before playing'
+    mode also the quality) and continue from the same position. The service does the seek."""
+    cur = watched.get_current()
+    player = xbmc.Player()
+    if not cur or not player.isPlayingVideo():
+        utils.notify(tr(30235))
+        return
+    pos = int(player.getTime())
+    mode1 = utils.get_int('quality_mode', 0) == 1
+    debug('switch: current=%s pos=%s' % (cur, pos))
+    try:
+        entries = kodik.get_entries(cur['sid'])
+        if cur.get('movie'):
+            cands = [(en, en['movie_link']) for en in entries if en['movie_link'] and not en['episodes']]
+        else:
+            cands = _episode_index(entries).get((cur['season'], cur['num']), [])
+    except (kodik.KodikError, requests.RequestException) as e:
+        _kodik_error(e)
+        return
+    what = 0
+    if mode1:  # in 'video settings' mode the quality is changed there, not here
+        what = xbmcgui.Dialog().select(tr(30232), [tr(30233), tr(30234)])
+        if what < 0:
+            return
+    here = next(((en, ln) for en, ln in cands if str(en['id']) == str(cur['tid'])), None)
+    if what == 0:
+        if len(cands) < 2:
+            utils.notify(tr(30242))
+            return
+        labels = [('> ' if str(en['id']) == str(cur['tid']) else '') + ('[%s] ' % tr(30201) if en['sub'] else '')
+                  + en['title'] for en, _ in cands]
+        pre = next((k for k, (en, _) in enumerate(cands) if str(en['id']) == str(cur['tid'])), -1)
+        choice = xbmcgui.Dialog().select(tr(30233), labels, preselect=pre)
+        debug('switch voice dialog -> %s' % choice)
+        if choice < 0 or str(cands[choice][0]['id']) == str(cur['tid']):
+            return
+        entry, link = cands[choice]
+        cache.pref_set('tid:%s' % cur['sid'], entry['id'])  # the new voice-over becomes the default
+    else:
+        if not here:
+            return
+        entry, link = here
+    try:
+        links = kodik.resolve(link)
+    except (kodik.KodikError, requests.RequestException, ValueError):
+        utils.log_exc('kodik.resolve (switch)')
+        xbmcgui.Dialog().ok(utils.NAME, tr(30211))
+        return
+    q = None
+    if mode1:
+        available = sorted(links)
+        if what == 0 and cur.get('q'):
+            q = _closest(available, cur['q'])
+        elif what == 1:
+            idx = xbmcgui.Dialog().select(tr(30234), ['%dp' % x for x in available],
+                                          preselect=available.index(cur['q']) if cur.get('q') in available else -1)
+            if idx < 0:
+                return
+            q = available[idx]
+    li, fb, q2 = _make_item(links, cur.get('title', ''), q)
+    if li is None:
+        return
+    _track({'sid': cur['sid'], 'tid': entry['id'], 'season': cur['season'], 'num': cur['num'],
+            'title': cur.get('title', ''), 'movie': cur.get('movie')}, fallback=fb, seek_to=pos, q=q2)
+    debug('switch: playing %s from %ss' % (li.getPath(), pos))
+    player.play(li.getPath(), li)
 
 
 def clear_cache():
@@ -545,6 +663,12 @@ def route(p):
             play(p)
         elif action == 'voice':
             pick_voice(p)
+        elif action == 'switch':
+            switch(p)
+        elif action == 'keymap_setup':
+            keymap.setup()
+        elif action == 'keymap_remove':
+            keymap.remove()
         elif action == 'continue':
             continue_list()
         elif action == 'mark':

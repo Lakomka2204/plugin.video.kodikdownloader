@@ -80,6 +80,12 @@
     </category>
     <category id="playback" label="30115">
       <group id="1">
+        <setting id="quality_mode" type="integer" label="30145">
+          <level>0</level>
+          <default>0</default>
+          <constraints><options><option label="30146">0</option><option label="30147">1</option></options></constraints>
+          <control type="list" format="string"><heading>30145</heading></control>
+        </setting>
         <setting id="default_quality" type="integer" label="30116">
           <level>0</level>
           <default>0</default>
@@ -106,6 +112,18 @@
           <level>0</level>
           <default>true</default>
           <control type="toggle"/>
+        </setting>
+        <setting id="keymap_setup" type="action" label="30236">
+          <level>0</level>
+          <data>RunPlugin(plugin://plugin.video.kodikdownloader/?action=keymap_setup)</data>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="button" format="action"><close>false</close></control>
+        </setting>
+        <setting id="keymap_remove" type="action" label="30237">
+          <level>0</level>
+          <data>RunPlugin(plugin://plugin.video.kodikdownloader/?action=keymap_remove)</data>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="button" format="action"><close>false</close></control>
         </setting>
       </group>
     </category>

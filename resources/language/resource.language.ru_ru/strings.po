@@ -291,3 +291,59 @@ msgstr ""
 msgctxt "#30231"
 msgid "Choose default voice-over"
 msgstr ""
+
+msgctxt "#30145"
+msgid "Quality selection"
+msgstr ""
+
+msgctxt "#30146"
+msgid "In video settings (stream list)"
+msgstr ""
+
+msgctxt "#30147"
+msgid "Ask before playing"
+msgstr ""
+
+msgctxt "#30232"
+msgid "Switch while playing"
+msgstr ""
+
+msgctxt "#30233"
+msgid "Voice-over"
+msgstr ""
+
+msgctxt "#30234"
+msgid "Quality"
+msgstr ""
+
+msgctxt "#30235"
+msgid "Nothing from this addon is playing"
+msgstr ""
+
+msgctxt "#30236"
+msgid "Set up remote shortcut"
+msgstr ""
+
+msgctxt "#30237"
+msgid "Remove remote shortcut"
+msgstr ""
+
+msgctxt "#30238"
+msgid "Press the remote button for switching voice-over. Back cancels."
+msgstr ""
+
+msgctxt "#30239"
+msgid "Shortcut set (button code {})"
+msgstr ""
+
+msgctxt "#30240"
+msgid "No button pressed"
+msgstr ""
+
+msgctxt "#30241"
+msgid "Shortcut removed"
+msgstr ""
+
+msgctxt "#30242"
+msgid "Only one voice-over has this episode"
+msgstr ""

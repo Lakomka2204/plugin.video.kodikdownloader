@@ -20,6 +20,7 @@ import xbmcgui
 from . import utils
 
 _NOW = utils.ID + '.nowplaying'
+_CUR = utils.ID + '.current'
 
 
 def ep_key(season, num):
@@ -214,6 +215,38 @@ def claim_now(max_age=120):
     if time.time() - data.get('t', 0) > max_age:
         utils.debug('nowplaying record is stale, ignored')
         return None
+    return data
+
+
+def set_current(data):
+    """Service: what is being watched right now (plugin actions such as 'switch' read it)."""
+    xbmcgui.Window(10000).setProperty(_CUR, json.dumps(data))
+
+
+def get_current():
+    try:
+        return json.loads(xbmcgui.Window(10000).getProperty(_CUR))
+    except ValueError:
+        return None
+
+
+def clear_current():
+    xbmcgui.Window(10000).clearProperty(_CUR)
+
+
+def take_fallback(max_age=90):
+    """Service, on a playback error: the record of an item that never started, if it has a fallback."""
+    w = xbmcgui.Window(10000)
+    raw = w.getProperty(_NOW)
+    if not raw:
+        return None
+    try:
+        data = json.loads(raw)
+    except ValueError:
+        return None
+    if not data.get('fallback') or time.time() - data.get('t', 0) > max_age:
+        return None
+    w.clearProperty(_NOW)
     return data
 
 
