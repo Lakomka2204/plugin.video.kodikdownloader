@@ -219,12 +219,13 @@ def claim_now(max_age=120):
 
 # --------------------------------------------------------------- UI refresh
 def refresh_listing():
-    """Refresh our own episode / continue list after marks changed. Does nothing for other windows."""
+    """Refresh our own episode / continue list after marks changed. Returns True if a refresh was issued,
+    False if the visible window is not ours (yet)."""
     path = xbmc.getInfoLabel('Container.FolderPath')
     if not path.startswith('plugin://%s/' % utils.ID):
-        return
+        return False
     if 'action=anime' not in path and 'action=continue' not in path:
-        return
+        return False
     q = parse_qs(path.split('?', 1)[1]) if '?' in path else {}
     if 'pick' in q and q.get('id'):
         # this URL would open the voice-over dialog again; reload the clean one instead
@@ -233,3 +234,4 @@ def refresh_listing():
         cmd = 'Container.Refresh'
     utils.debug('refresh_listing: %s (path=%s)' % (cmd, path))
     xbmc.executebuiltin(cmd)
+    return True

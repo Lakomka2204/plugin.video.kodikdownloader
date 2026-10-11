@@ -62,7 +62,11 @@ def build(a, roles, ru):
     """Plain dict with everything we can show; {} if there is no anime data."""
     if not a:
         return {}
-    foot = []
+    eps = ''
+    if a.get('episodes') or a.get('episodes_aired'):
+        eps = '%s/%s' % (a.get('episodes_aired') or 0, a.get('episodes') or '?')
+    summary = ' · '.join(str(x) for x in (a.get('kind'), a.get('status'), eps) if x)
+    foot = [summary] if summary else []
     lic = [x for x in (a.get('licensors') or []) if x]
     if lic:
         foot.append(utils.tr(30229).format(', '.join(lic)))

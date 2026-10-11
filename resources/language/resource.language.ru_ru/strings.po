@@ -236,10 +236,6 @@ msgctxt "#30140"
 msgid "Mark as watched at (%)"
 msgstr "Считать серию просмотренной с (%)"
 
-msgctxt "#30141"
-msgid "Auto-play next episode"
-msgstr "Автопереход на следующую серию"
-
 msgctxt "#30142"
 msgid "Clear watch history"
 msgstr "Очистить историю просмотра"

@@ -236,9 +236,6 @@ msgctxt "#30140"
 msgid "Mark as watched at (%)"
 msgstr ""
 
-msgctxt "#30141"
-msgid "Auto-play next episode"
-msgstr ""
 
 msgctxt "#30142"
 msgid "Clear watch history"

@@ -97,11 +97,6 @@
           <constraints><minimum>50</minimum><step>5</step><maximum>100</maximum></constraints>
           <control type="slider" format="percentage"><popup>false</popup></control>
         </setting>
-        <setting id="autoplay_next" type="boolean" label="30141">
-          <level>0</level>
-          <default>false</default>
-          <control type="toggle"/>
-        </setting>
         <setting id="voice_ask" type="boolean" label="30143">
           <level>0</level>
           <default>false</default>

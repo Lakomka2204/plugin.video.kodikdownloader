@@ -24,8 +24,7 @@ class Watcher(xbmc.Player):
         self.pos = 0
         self.total = 0
         self.saved_at = 0.0
-        self.next_req = None  # finished episode record: start the next one from the main loop
-        self.refresh_at = 0.0
+        self.refresh_req = None  # after playback: refresh our list, then focus the next episode
 
     # ---- player events (run on Kodi's thread, keep them light)
     def onAVStarted(self):
@@ -64,24 +63,23 @@ class Watcher(xbmc.Player):
         done = watched.save_progress(c['sid'], c['num'], pos, self.total, thr, ended=ended)
         utils.debug('service: finish sid=%s num=%s pos=%s/%s ended=%s threshold=%s -> watched=%s' % (
             c['sid'], c['num'], pos, self.total, ended, thr, done))
-        if ended and _setting('bool', 'autoplay_next', False):
-            self.next_req = c
-        else:
-            self.refresh_at = time.time() + 1
+        self.refresh_req = {'t0': time.time(), 'stage': 0, 'sid': c['sid'], 'num': c['num'] if done else None}
 
-    def _play_next(self, c):
-        try:
-            from lib import ui
-            li = ui.autoplay_next(c)
-        except Exception:
-            utils.log_exc('service autoplay_next')
+    def _select_next(self, r):
+        """After a finished episode: put the focus on the next episode of the refreshed list."""
+        if r['num'] is None:
             return
-        if li is None:
-            utils.debug('service: no next episode')
-            self.refresh_at = time.time() + 1
-            return
-        utils.debug('service: autoplay -> %s' % li.getPath())
-        self.play(li.getPath(), li)
+        hi = watched.get_anime(r['sid']).get('hi') or 0
+        if hi and r['num'] >= hi:
+            utils.debug('service: last episode finished, nothing to focus')
+        elif xbmc.getInfoLabel('ListItem.Property(kk_continue)') == '1':
+            utils.debug('service: focus is on the Continue item, it already points to the next episode')
+        elif xbmc.getInfoLabel('ListItem.Episode') != str(r['num']):
+            utils.debug('service: focused episode is %r, not %s: leaving the focus alone' % (
+                xbmc.getInfoLabel('ListItem.Episode'), r['num']))
+        else:
+            utils.debug('service: focus next episode (Action Down)')
+            xbmc.executebuiltin('Action(Down)')
 
     def tick(self):
         """Called once a second from the main loop."""
@@ -95,12 +93,16 @@ class Watcher(xbmc.Player):
                 self.saved_at = time.time()
                 watched.save_progress(self.cur['sid'], self.cur['num'], self.pos, self.total,
                                       _setting('int', 'watched_threshold', 85))
-        if self.next_req:
-            req, self.next_req = self.next_req, None
-            self._play_next(req)
-        if self.refresh_at and time.time() >= self.refresh_at:
-            self.refresh_at = 0.0
-            watched.refresh_listing()
+        r = self.refresh_req
+        if r and not self.isPlayingVideo():
+            if time.time() - r['t0'] > 20:  # never got back to our list
+                self.refresh_req = None
+            elif r['stage'] == 0:
+                if watched.refresh_listing():  # False while the video window is still closing
+                    r['stage'], r['t1'] = 1, time.time()
+            elif time.time() - r['t1'] >= 1.5 and not xbmc.getCondVisibility('Container.IsUpdating'):
+                self.refresh_req = None
+                self._select_next(r)
 
 
 def run():

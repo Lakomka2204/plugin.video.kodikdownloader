@@ -98,7 +98,13 @@ def seasons():
     _end()
 
 
-def _anime_item(a):
+def _info_for(det):
+    full, roles = det
+    inf = info.build(full, roles, utils.get_int('title_lang') != 1)
+    return inf, info.make_actors(inf)
+
+
+def _anime_item(a, det=None):
     li = xbmcgui.ListItem(label=_title(a))
     poster = shiki.image_url(a)
     li.setArt({'poster': poster, 'thumb': poster, 'icon': poster, 'fanart': poster})
@@ -119,6 +125,8 @@ def _anime_item(a):
     if a.get('episodes') or a.get('episodes_aired'):
         eps = '%s/%s' % (a.get('episodes_aired') or 0, a.get('episodes') or '?')
     tag.setPlot(' · '.join(x for x in (a.get('kind'), a.get('status'), eps) if x))
+    if det:  # full description, genres, studios, cast, episode duration ... on the anime itself
+        info.apply(tag, *_info_for(det))
     return li
 
 
@@ -131,6 +139,7 @@ def anime_list(p):
     else:
         filters = dict(FILTERS[kind])
     items = shiki.animes(page, **filters)
+    details = shiki.details([a['id'] for a in items]) if items else {}
     debug('anime_list kind=%s page=%s -> %d items' % (kind, page, len(items)))
     if not items and page == 1:
         utils.notify(tr(30214))
@@ -148,7 +157,7 @@ def anime_list(p):
         li.setArt({'icon': 'DefaultFolder.png', 'thumb': 'DefaultFolder.png'})
         xbmcplugin.addDirectoryItem(HANDLE, url(**nxt), li, True)
     for a in items:
-        xbmcplugin.addDirectoryItem(HANDLE, url(action='anime', id=a['id']), _anime_item(a), True)
+        xbmcplugin.addDirectoryItem(HANDLE, url(action='anime', id=a['id']), _anime_item(a, details.get(a['id'])), True)
     _end('tvshows')
 
 
@@ -196,14 +205,6 @@ def _episode_index(entries):
         for e in en['episodes']:
             idx.setdefault((e['season'], e['num']), []).append((en, e['link']))
     return idx
-
-
-def _anime_roles(sid):
-    try:
-        return shiki.get_roles(sid)
-    except (requests.RequestException, ValueError):
-        utils.log_exc('shikimori get_roles(%s)' % sid)
-        return []
 
 
 def _shot_template(pool):
@@ -281,7 +282,7 @@ def _context(sid, num, fresh_url):
             (tr(30231), 'RunPlugin(%s)' % url(action='voice', id=sid))]
 
 
-def _add_playable(sid, season, num, name, art, label, title, rec, nvoices=0, movie=False, inf=None, actors=None):
+def _add_playable(sid, season, num, name, art, label, title, rec, nvoices=0, movie=False, cont=False):
     li = xbmcgui.ListItem(label)
     li.setArt(art)
     if nvoices:
@@ -295,9 +296,10 @@ def _add_playable(sid, season, num, name, art, label, title, rec, nvoices=0, mov
         tag.setTvShowTitle(name)
         tag.setEpisode(num)
         tag.setSeason(season)
-    info.apply(tag, inf, actors)
     _apply_marks(tag, rec)
     li.setProperty('IsPlayable', 'true')
+    if cont:
+        li.setProperty('kk_continue', '1')  # the service looks for it to pick the right item to focus
     mv = 1 if movie else None
     li.addContextMenuItems(_context(sid, num, _play_url(sid, season, num, title, fresh=1, movie=mv)))
     xbmcplugin.addDirectoryItem(HANDLE, _play_url(sid, season, num, title, movie=mv), li, False)
@@ -315,16 +317,13 @@ def _show_anime(sid, entries):
     watched.set_meta(sid, name, poster, len(nums), min(nums), max(nums))
     rec_anime = watched.get_anime(sid)
     marks = rec_anime.get('eps', {})
-    inf = info.build(a, _anime_roles(sid) if a else [], utils.get_int('title_lang') != 1)
-    actors = info.make_actors(inf)
     tpl = _shot_template(shots) if utils.get_bool('episode_shots', True) else None
-    debug('show_anime: episodes=%d movie=%s screenshots=%d per_episode=%s info=%s cast=%d' % (
-        len(keys), is_movie, len(shots), bool(tpl), bool(inf), len(actors)))
+    debug('show_anime: episodes=%d movie=%s screenshots=%d per_episode=%s' % (len(keys), is_movie, len(shots), bool(tpl)))
 
     if is_movie:
         label = name or tr(30209)
         art = {'thumb': poster, 'icon': poster, 'poster': poster, 'fanart': shots[0] if shots else poster}
-        _add_playable(sid, 1, 1, name, art, label, label, marks.get('1', {}), movie=True, inf=inf, actors=actors)
+        _add_playable(sid, 1, 1, name, art, label, label, marks.get('1', {}), movie=True)
         _end('movies')
         return
 
@@ -347,10 +346,10 @@ def _show_anime(sid, entries):
         art = art_for(i)
         art.update({'thumb': 'DefaultRecentlyAddedEpisodes.png', 'icon': 'DefaultRecentlyAddedEpisodes.png'})
         _add_playable(sid, s, n, name, art, '[B]%s[/B]' % tr(30221).format(n), title_for(s, n),
-                      marks.get(str(n), {}), nvoices=len(idx[(s, n)]), inf=inf, actors=actors)
+                      marks.get(str(n), {}), nvoices=len(idx[(s, n)]), cont=True)
     for i, (s, n) in enumerate(keys):
         _add_playable(sid, s, n, name, art_for(i), _ep_label(s, n, multi), title_for(s, n),
-                      marks.get(str(n), {}), nvoices=len(idx[(s, n)]), inf=inf, actors=actors)
+                      marks.get(str(n), {}), nvoices=len(idx[(s, n)]))
     debug('episodes listed: %d (multi_season=%s)' % (len(keys), multi))
     xbmcplugin.addSortMethod(HANDLE, xbmcplugin.SORT_METHOD_UNSORTED)
     _end('episodes')
@@ -363,6 +362,7 @@ def continue_list():
         utils.notify(tr(30214))
         _end(ok=False)
         return
+    details = shiki.details([int(s) for s, _ in rows])
     for sid, a in rows:
         name = a.get('name') or str(sid)
         nxt = watched.next_episode(a)
@@ -372,6 +372,8 @@ def continue_list():
         tag = li.getVideoInfoTag()
         tag.setMediaType('tvshow')
         tag.setTitle(name)
+        if int(sid) in details:
+            info.apply(tag, *_info_for(details[int(sid)]))
         xbmcplugin.addDirectoryItem(HANDLE, url(action='anime', id=sid), li, True)
     _end('tvshows')
 
@@ -395,26 +397,19 @@ def clear_watched():
 
 
 # --------------------------------------------------------------- playback
-def _closest(available, pref):
-    return min(available, key=lambda q: (abs(q - pref), q))  # ties -> lower
-
-
-def _pick_quality(links, ask=True):
+def _pick_quality(links):
     available = sorted(links)
     pref = utils.get_int('default_quality', 0)
-    debug('pick quality: available=%s pref=%s ask=%s' % (available, pref, ask))
+    debug('pick quality: available=%s pref=%s' % (available, pref))
     if len(available) == 1:
         return available[0]
     if pref == 0:
-        if not ask:  # autoplay: no dialogs, reuse the last quality the user picked
-            last = cache.pref_get('last_quality')
-            return _closest(available, last) if last else available[-1]
         idx = xbmcgui.Dialog().select(tr(30203), ['%dp' % q for q in available])
         debug('quality dialog -> %s' % idx)
         return available[idx] if idx >= 0 else None
     if pref >= 9999:
         return available[-1]
-    return _closest(available, pref)
+    return min(available, key=lambda q: (abs(q - pref), q))  # closest, ties -> lower
 
 
 def _stream_item(stream, title):
@@ -514,35 +509,12 @@ def play(p):
     if q is None:
         _fail_play()
         return
-    cache.pref_set('last_quality', q)
     stream = links[q]
     debug('chosen %dp: %s' % (q, stream))
     li = _stream_item(stream, p.get('title', ''))
     _track(p)
     debug('setResolvedUrl(True) path=%s' % li.getPath())
     xbmcplugin.setResolvedUrl(HANDLE, True, li)
-
-
-def autoplay_next(cur):
-    """Called by the service after an episode ended. Returns a ready ListItem or None."""
-    idx = _episode_index(kodik.get_entries(cur['sid']))
-    keys = sorted(idx)
-    here = (cur['season'], cur['num'])
-    if here not in keys or keys.index(here) + 1 >= len(keys):
-        return None
-    nk = keys[keys.index(here) + 1]
-    cands = idx[nk]
-    entry, link = next(((en, l) for en, l in cands if str(en['id']) == str(cur['tid'])), cands[0])
-    links = kodik.resolve(link)
-    q = _pick_quality(links, ask=False)
-    multi = len({s for s, _ in keys}) > 1
-    lbl = _ep_label(nk[0], nk[1], multi)
-    name = watched.get_anime(cur['sid']).get('name', '')
-    title = '%s - %s' % (name, lbl) if name else lbl
-    li = _stream_item(links[q], title)
-    _track({'sid': cur['sid'], 'tid': entry['id'], 'season': nk[0], 'num': nk[1]})
-    debug('autoplay_next: %s at %dp voice=%s' % (title, q, entry['title']))
-    return li
 
 
 def clear_cache():
