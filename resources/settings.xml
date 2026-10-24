@@ -18,8 +18,13 @@
         <setting id="title_lang" type="integer" label="30103">
           <level>0</level>
           <default>0</default>
-          <constraints><options><option label="30104">0</option><option label="30105">1</option></options></constraints>
+          <constraints><options><option label="30017">0</option><option label="30105">1</option><option label="30104">2</option></options></constraints>
           <control type="list" format="string"><heading>30103</heading></control>
+        </setting>
+        <setting id="notify_new" type="boolean" label="30030">
+          <level>0</level>
+          <default>true</default>
+          <control type="toggle"/>
         </setting>
         <setting id="page_size" type="integer" label="30106">
           <level>0</level>

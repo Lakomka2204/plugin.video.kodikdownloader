@@ -64,9 +64,7 @@ def log_exc(where):
 
 def log_environment(params):
     token = get_str('kodik_token')
-    debug('=== run: argv=%s params=%s' % (sys.argv, params))
-    debug('kodi=%s addon=%s lang=%s' % (xbmc.getInfoLabel('System.BuildVersion'),
-                                         ADDON.getAddonInfo('version'), xbmc.getLanguage()))
+    debug('=== main entry: addon=%s argv=%s params=%s' % (ADDON.getAddonInfo('version'), sys.argv, params))
     debug('settings: shiki_domain=%s custom=%r title_lang=%s page_size=%s cache_ttl=%s show_adult=%s pin_set=%s '
           'kodik_base=%s token_set=%s(len=%d) quality=%s use_isa=%s headers_set=%s' % (
               get_str('shiki_domain'), get_str('shiki_domain_custom'), get_int('title_lang'), get_int('page_size'),

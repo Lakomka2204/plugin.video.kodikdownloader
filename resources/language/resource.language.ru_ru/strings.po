@@ -2,348 +2,408 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Language: en_GB\n"
+"Language: ru_RU\n"
 
 msgctxt "#30001"
 msgid "Ongoing"
-msgstr ""
+msgstr "Онгоинги"
 
 msgctxt "#30003"
 msgid "Top rated"
-msgstr ""
+msgstr "Топ по рейтингу"
 
 msgctxt "#30004"
 msgid "By season"
-msgstr ""
+msgstr "По сезонам"
 
 msgctxt "#30005"
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 msgctxt "#30006"
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 msgctxt "#30007"
 msgid "Next page"
-msgstr ""
+msgstr "Далее"
 
 msgctxt "#30011"
 msgid "Winter"
-msgstr ""
+msgstr "Зима"
 
 msgctxt "#30012"
 msgid "Spring"
-msgstr ""
+msgstr "Весна"
 
 msgctxt "#30013"
 msgid "Summer"
-msgstr ""
+msgstr "Лето"
 
 msgctxt "#30014"
 msgid "Fall"
-msgstr ""
+msgstr "Осень"
 
 msgctxt "#30100"
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 msgctxt "#30101"
 msgid "Shikimori domain"
-msgstr ""
+msgstr "Домен Shikimori"
 
 msgctxt "#30102"
 msgid "Custom domain (overrides the list)"
-msgstr ""
+msgstr "Свой домен (приоритет над списком)"
 
 msgctxt "#30103"
 msgid "Title language"
-msgstr ""
+msgstr "Язык названий"
 
 msgctxt "#30104"
 msgid "Russian"
-msgstr ""
+msgstr "Русский"
 
 msgctxt "#30105"
 msgid "Romaji"
-msgstr ""
+msgstr "Ромадзи"
 
 msgctxt "#30106"
 msgid "Items per page"
-msgstr ""
+msgstr "Элементов на странице"
 
 msgctxt "#30107"
 msgid "Cache lifetime (minutes)"
-msgstr ""
+msgstr "Время жизни кэша (минуты)"
 
 msgctxt "#30108"
 msgid "Clear cache"
-msgstr ""
+msgstr "Очистить кэш"
 
 msgctxt "#30109"
 msgid "18+ content"
-msgstr ""
+msgstr "Контент 18+"
 
 msgctxt "#30110"
 msgid "Show 18+ content"
-msgstr ""
+msgstr "Показывать контент 18+"
 
 msgctxt "#30111"
 msgid "PIN code (4 digits, empty = off)"
-msgstr ""
+msgstr "PIN-код (4 цифры, пусто = выкл.)"
 
 msgctxt "#30112"
 msgid "Kodik"
-msgstr ""
+msgstr "Kodik"
 
 msgctxt "#30113"
 msgid "Kodik API token"
-msgstr ""
+msgstr "Токен Kodik API"
 
 msgctxt "#30114"
 msgid "Kodik API address"
-msgstr ""
+msgstr "Адрес Kodik API"
 
 msgctxt "#30115"
 msgid "Playback"
-msgstr ""
+msgstr "Воспроизведение"
 
 msgctxt "#30116"
 msgid "Default quality"
-msgstr ""
+msgstr "Качество по умолчанию"
 
 msgctxt "#30117"
 msgid "Ask every time"
-msgstr ""
+msgstr "Спрашивать каждый раз"
 
 msgctxt "#30118"
 msgid "Highest available"
-msgstr ""
+msgstr "Максимальное"
 
 msgctxt "#30119"
 msgid "Use InputStream Adaptive"
-msgstr ""
+msgstr "Использовать InputStream Adaptive"
 
 msgctxt "#30120"
 msgid "Debug logging"
-msgstr ""
+msgstr "Отладочный лог"
 
 msgctxt "#30121"
 msgid "Advanced"
-msgstr ""
+msgstr "Дополнительно"
 
 msgctxt "#30122"
 msgid "Extra stream headers (Name=Value&Name2=Value2)"
-msgstr ""
+msgstr "Доп. заголовки потока (Name=Value&Name2=Value2)"
 
 msgctxt "#30130"
 msgid "360p"
-msgstr ""
+msgstr "360p"
 
 msgctxt "#30131"
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
 msgctxt "#30132"
 msgid "720p"
-msgstr ""
+msgstr "720p"
 
 msgctxt "#30133"
 msgid "1080p"
-msgstr ""
+msgstr "1080p"
 
 msgctxt "#30200"
 msgid "Select voice-over or subtitles"
-msgstr ""
+msgstr "Выберите озвучку или субтитры"
 
 msgctxt "#30201"
 msgid "SUB"
-msgstr ""
+msgstr "СУБ"
 
 msgctxt "#30202"
 msgid "Sorry, this anime is not available (no voice-over or subtitles found)."
-msgstr ""
+msgstr "Извините, аниме недоступно (озвучек и субтитров не найдено)."
 
 msgctxt "#30203"
 msgid "Select quality"
-msgstr ""
+msgstr "Выберите качество"
 
 msgctxt "#30204"
 msgid "Kodik API token is not set. Open settings?"
-msgstr ""
+msgstr "Токен Kodik API не задан. Открыть настройки?"
 
 msgctxt "#30205"
 msgid "Network error"
-msgstr ""
+msgstr "Ошибка сети"
 
 msgctxt "#30206"
 msgid "Enter PIN"
-msgstr ""
+msgstr "Введите PIN"
 
 msgctxt "#30207"
 msgid "Wrong PIN"
-msgstr ""
+msgstr "Неверный PIN"
 
 msgctxt "#30208"
 msgid "Episode {}"
-msgstr ""
+msgstr "Серия {}"
 
 msgctxt "#30209"
 msgid "Movie"
-msgstr ""
+msgstr "Фильм"
 
 msgctxt "#30211"
 msgid "Could not get the video link"
-msgstr ""
+msgstr "Не удалось получить ссылку на видео"
 
 msgctxt "#30212"
 msgid "Cache cleared"
-msgstr ""
+msgstr "Кэш очищен"
 
 msgctxt "#30213"
 msgid "Search anime"
-msgstr ""
+msgstr "Поиск аниме"
 
 msgctxt "#30214"
 msgid "Nothing found"
-msgstr ""
+msgstr "Ничего не найдено"
 
 msgctxt "#30216"
 msgid "Kodik rejected the request (HTTP {}). Check your token."
-msgstr ""
+msgstr "Kodik отклонил запрос (HTTP {}). Проверьте токен."
 
 msgctxt "#30217"
 msgid "ep."
-msgstr ""
+msgstr "сер."
 
 msgctxt "#30218"
 msgid "Clear the cache?"
-msgstr ""
+msgstr "Очистить кэш?"
 
 msgctxt "#30008"
 msgid "Continue watching"
-msgstr ""
+msgstr "Продолжить просмотр"
 
 msgctxt "#30140"
 msgid "Mark as watched at (%)"
-msgstr ""
+msgstr "Считать серию просмотренной с (%)"
 
 msgctxt "#30142"
 msgid "Clear watch history"
-msgstr ""
+msgstr "Очистить историю просмотра"
 
 msgctxt "#30219"
 msgid "Clear all watch history?"
-msgstr ""
+msgstr "Очистить всю историю просмотра?"
 
 msgctxt "#30220"
 msgid "Watch history cleared"
-msgstr ""
+msgstr "История просмотра очищена"
 
 msgctxt "#30221"
 msgid "Continue from episode {}"
-msgstr ""
+msgstr "Продолжить с {}-й серии"
 
 msgctxt "#30222"
 msgid "Mark as watched"
-msgstr ""
+msgstr "Отметить просмотренной"
 
 msgctxt "#30223"
 msgid "Mark as unwatched"
-msgstr ""
+msgstr "Снять отметку"
 
 msgctxt "#30224"
 msgid "Mark watched up to here"
-msgstr ""
+msgstr "Отметить всё до этой серии"
 
 msgctxt "#30225"
 msgid "Play from beginning"
-msgstr ""
+msgstr "Смотреть сначала"
 
 msgctxt "#30227"
 msgid "{} voice-overs"
-msgstr ""
+msgstr "озвучек: {}"
 
 msgctxt "#30228"
 msgid "This episode is not available in any voice-over."
-msgstr ""
+msgstr "Этой серии нет ни в одной озвучке."
 
 msgctxt "#30009"
 msgid "Previous page"
-msgstr ""
+msgstr "Предыдущая страница"
 
 msgctxt "#30143"
 msgid "Ask voice-over for every episode"
-msgstr ""
+msgstr "Спрашивать озвучку для каждой серии"
 
 msgctxt "#30144"
 msgid "Per-episode screenshots (Kodik)"
-msgstr ""
+msgstr "Кадры для каждой серии (Kodik)"
 
 msgctxt "#30229"
 msgid "Licensed by: {}"
-msgstr ""
+msgstr "Лицензировано: {}"
 
 msgctxt "#30230"
 msgid "Aired: {}"
-msgstr ""
+msgstr "Выход: {}"
 
 msgctxt "#30231"
 msgid "Choose default voice-over"
-msgstr ""
+msgstr "Выбрать озвучку по умолчанию"
 
 msgctxt "#30145"
 msgid "Quality selection"
-msgstr ""
+msgstr "Выбор качества"
 
 msgctxt "#30146"
 msgid "In video settings (stream list)"
-msgstr ""
+msgstr "В настройках видео (список потоков)"
 
 msgctxt "#30147"
 msgid "Ask before playing"
-msgstr ""
+msgstr "Спрашивать перед просмотром"
 
 msgctxt "#30232"
 msgid "Switch while playing"
-msgstr ""
+msgstr "Переключение во время просмотра"
 
 msgctxt "#30233"
 msgid "Voice-over"
-msgstr ""
+msgstr "Озвучка"
 
 msgctxt "#30234"
 msgid "Quality"
-msgstr ""
+msgstr "Качество"
 
 msgctxt "#30235"
 msgid "Nothing from this addon is playing"
-msgstr ""
+msgstr "Сейчас ничего из этого аддона не играет"
 
 msgctxt "#30236"
 msgid "Set up remote shortcut"
-msgstr ""
+msgstr "Настроить кнопку пульта"
 
 msgctxt "#30237"
 msgid "Remove remote shortcut"
-msgstr ""
+msgstr "Убрать кнопку пульта"
 
 msgctxt "#30238"
 msgid "Press the remote button for switching voice-over. Back cancels."
-msgstr ""
+msgstr "Нажмите кнопку пульта для переключения озвучки. «Назад» отменяет."
 
 msgctxt "#30239"
 msgid "Shortcut set (button code {})"
-msgstr ""
+msgstr "Кнопка назначена (код {})"
 
 msgctxt "#30240"
 msgid "No button pressed"
-msgstr ""
+msgstr "Кнопка не нажата"
 
 msgctxt "#30241"
 msgid "Shortcut removed"
-msgstr ""
+msgstr "Кнопка убрана"
 
 msgctxt "#30242"
 msgid "Only one voice-over has this episode"
-msgstr ""
+msgstr "У этой серии только одна озвучка"
+
+msgctxt "#30015"
+msgid "Genres"
+msgstr "Жанры"
+
+msgctxt "#30017"
+msgid "Auto (Kodi language)"
+msgstr "Авто (язык Kodi)"
+
+msgctxt "#30018"
+msgid "Calendar"
+msgstr "Календарь"
+
+msgctxt "#30019"
+msgid "Today"
+msgstr "Сегодня"
+
+msgctxt "#30020"
+msgid "Tomorrow"
+msgstr "Завтра"
+
+msgctxt "#30021"
+msgid "Mon"
+msgstr "Пн"
+
+msgctxt "#30022"
+msgid "Tue"
+msgstr "Вт"
+
+msgctxt "#30023"
+msgid "Wed"
+msgstr "Ср"
+
+msgctxt "#30024"
+msgid "Thu"
+msgstr "Чт"
+
+msgctxt "#30025"
+msgid "Fri"
+msgstr "Пт"
+
+msgctxt "#30026"
+msgid "Sat"
+msgstr "Сб"
+
+msgctxt "#30027"
+msgid "Sun"
+msgstr "Вс"
+
+msgctxt "#30028"
+msgid "Ep. {} · {}"
+msgstr "Сер. {} · {}"
+
+msgctxt "#30029"
+msgid "{}: episode {} is out"
+msgstr "{}: вышла серия {}"
+
+msgctxt "#30030"
+msgid "Notify about new episodes"
+msgstr "Уведомлять о новых сериях"

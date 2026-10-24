@@ -3,9 +3,11 @@ import time
 import xbmc
 import xbmcaddon
 
-from lib import master, utils, watched
+from lib import cache, master, shikimori, utils, watched
 
 SAVE_EVERY = 30  # seconds between progress saves while playing
+CAL_EVERY = 1800  # seconds between new-episode checks
+CAL_MAX_AGE = 3 * 86400  # do not announce episodes older than this
 
 
 def _setting(kind, key, default):
@@ -135,15 +137,50 @@ class Watcher(xbmc.Player):
                 self._select_next(r)
 
 
+def check_new_episodes():
+    """Notify about episodes (of anime with watch history) that have come out since the last check.
+    Stored per anime: the upcoming episode seen in the calendar. When the calendar moves on to a later
+    episode (or the anime leaves it), the stored one has aired."""
+    if not _setting('bool', 'notify_new', True):
+        return
+    ids = watched.followed()
+    if not ids:
+        return
+    seen = {}
+    for e in shikimori.calendar(fresh=True):
+        a = e.get('anime') or {}
+        if a.get('id') in ids:
+            seen[a['id']] = (int(e.get('next_episode') or 0), shikimori.parse_time(e.get('next_episode_at')) or 0, a)
+    state = cache.pref_get('cal', {})
+    now = time.time()
+    out = {}
+    for sid in set(seen) | set(int(k) for k in state):
+        prev = state.get(str(sid))
+        cur = seen.get(sid)
+        if prev and (not cur or prev['ep'] < cur[0]) and prev['at'] <= now and now - prev['at'] < CAL_MAX_AGE:
+            utils.debug('service: episode %s of %s is out' % (prev['ep'], sid))
+            utils.notify(utils.tr(30029).format(prev['name'], prev['ep']))
+        if cur:
+            out[str(sid)] = {'ep': cur[0], 'at': cur[1], 'name': utils.anime_title(cur[2])}
+    cache.pref_set('cal', out)
+
+
 def run():
     monitor = xbmc.Monitor()
     watcher = Watcher()
     server = master.start()
     utils.debug('service started (master server %s)' % ('on' if server else 'OFF'))
+    next_cal = time.time() + 60
     while not monitor.abortRequested():
         if monitor.waitForAbort(1):
             break
         watcher.tick()
+        if time.time() >= next_cal and not watcher.isPlayingVideo():
+            next_cal = time.time() + CAL_EVERY
+            try:
+                check_new_episodes()
+            except Exception:
+                utils.log_exc('service check_new_episodes')
     master.stop(server)
     utils.debug('service stopped')
 

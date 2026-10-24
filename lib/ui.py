@@ -15,7 +15,7 @@ FILTERS = {
     'top': {'order': 'ranked'},
 }
 SEASON_NAMES = [('winter', 30011), ('spring', 30012), ('summer', 30013), ('fall', 30014)]
-DIR_ACTIONS = (None, 'list', 'seasons', 'search', 'anime', 'continue')
+DIR_ACTIONS = (None, 'list', 'seasons', 'search', 'anime', 'continue', 'genres')
 _ended = False
 # Kodik screenshot URLs: .../screenshots/seria/<seria id>/<n>.jpg. Build the same kind of URL for every
 # episode (default on, switchable in settings in case Kodik has none for some episodes).
@@ -71,6 +71,7 @@ def root():
         (30001, {'action': 'list', 'kind': 'ongoing'}, 'DefaultInProgressShows.png'),
         (30003, {'action': 'list', 'kind': 'top'}, 'DefaultMusicTop100.png'),
         (30004, {'action': 'seasons'}, 'DefaultYear.png'),
+        (30015, {'action': 'genres'}, 'DefaultGenre.png'),
         (30005, {'action': 'search'}, 'DefaultAddonsSearch.png'),
     ]
     for sid, params, icon in items:
@@ -95,6 +96,17 @@ def seasons():
         idx -= 1
         if idx < 0:
             idx, year = 3, year - 1
+    _end()
+
+
+def genres():
+    ru = utils.get_int('title_lang') != 1
+    gl = shiki.genres()
+    gl.sort(key=lambda g: ((g['russian'] if ru else g['name']) or g['name'] or '').lower())
+    for g in gl:
+        li = xbmcgui.ListItem((g['russian'] if ru else g['name']) or g['name'] or '?')
+        li.setArt({'icon': 'DefaultGenre.png', 'thumb': 'DefaultGenre.png'})
+        xbmcplugin.addDirectoryItem(HANDLE, url(action='list', kind='genre', genre=g['id']), li, True)
     _end()
 
 
@@ -134,6 +146,8 @@ def anime_list(p):
     kind, page = p.get('kind'), int(p.get('page', 1))
     if kind == 'season':
         filters = {'season': p['season'], 'order': 'popularity'}
+    elif kind == 'genre':
+        filters = {'genre': p['genre'], 'order': 'popularity'}
     elif kind == 'search':
         filters = {'search': p['q'], 'order': 'popularity'}
     else:
@@ -655,6 +669,8 @@ def route(p):
             anime_list(p)
         elif action == 'seasons':
             seasons()
+        elif action == 'genres':
+            genres()
         elif action == 'search':
             search(p)
         elif action == 'anime':

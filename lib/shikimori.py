@@ -60,6 +60,26 @@ def animes(page=1, **filters):
     return _get('/api/animes', params)
 
 
+_ADULT_GENRES = ('Hentai', 'Erotica', 'Yaoi', 'Yuri')
+
+
+def genres():
+    """Anime genres [{id, name, russian}], cached for a week; 18+ ones only when allowed."""
+    key = 'genres2:' + base()
+    data = cache.get(key, 7 * 86400)
+    if not data:
+        raw = _request('/api/genres', None)
+        # newer API: entry_type 'Anime'/'Manga' (kind = genre/theme/demographic); older: kind 'anime'/'manga'
+        data = [{'id': g['id'], 'name': g.get('name'), 'russian': g.get('russian')} for g in raw
+                if str(g.get('entry_type') or g.get('kind') or '').lower() == 'anime']
+        utils.debug('genres: %d raw, %d anime' % (len(raw), len(data)))
+        if data:
+            cache.set(key, data)
+    if not utils.adult_allowed():
+        data = [g for g in data if g['name'] not in _ADULT_GENRES]
+    return data
+
+
 def get_anime(anime_id):
     return _get('/api/animes/%s' % anime_id)
 
