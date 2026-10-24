@@ -6,7 +6,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
-from . import utils, cache, kodik, watched, info, master, keymap
+from . import utils, cache, kodik, watched, info, master, keymap, webcfg
 from . import shikimori as shiki
 from .utils import tr, url, HANDLE, debug
 
@@ -15,7 +15,7 @@ FILTERS = {
     'top': {'order': 'ranked'},
 }
 SEASON_NAMES = [('winter', 30011), ('spring', 30012), ('summer', 30013), ('fall', 30014)]
-DIR_ACTIONS = (None, 'list', 'seasons', 'search', 'anime', 'continue', 'genres')
+DIR_ACTIONS = (None, 'list', 'seasons', 'search', 'anime', 'continue', 'genres', 'calendar', 'calendar_day')
 _ended = False
 # Kodik screenshot URLs: .../screenshots/seria/<seria id>/<n>.jpg. Build the same kind of URL for every
 # episode (default on, switchable in settings in case Kodik has none for some episodes).
@@ -25,9 +25,7 @@ _SERIA_RE = re.compile(r'/seria/(\d+)/')
 
 # ---------------------------------------------------------------- helpers
 def _title(a):
-    if utils.get_int('title_lang') == 1:
-        return a.get('name') or a.get('russian') or '?'
-    return a.get('russian') or a.get('name') or '?'
+    return utils.anime_title(a)
 
 
 def _end(content=None, ok=True):
@@ -72,6 +70,7 @@ def root():
         (30003, {'action': 'list', 'kind': 'top'}, 'DefaultMusicTop100.png'),
         (30004, {'action': 'seasons'}, 'DefaultYear.png'),
         (30015, {'action': 'genres'}, 'DefaultGenre.png'),
+        (30018, {'action': 'calendar'}, 'DefaultPVRGuide.png'),
         (30005, {'action': 'search'}, 'DefaultAddonsSearch.png'),
     ]
     for sid, params, icon in items:
@@ -100,7 +99,7 @@ def seasons():
 
 
 def genres():
-    ru = utils.get_int('title_lang') != 1
+    ru = utils.use_ru()
     gl = shiki.genres()
     gl.sort(key=lambda g: ((g['russian'] if ru else g['name']) or g['name'] or '').lower())
     for g in gl:
@@ -110,9 +109,51 @@ def genres():
     _end()
 
 
+def _cal_entries():
+    """[(epoch, episode number, anime)] sorted by time."""
+    out = []
+    for e in shiki.calendar():
+        a = e.get('anime') or {}
+        ts = shiki.parse_time(e.get('next_episode_at'))
+        if a.get('id') and ts:
+            out.append((ts, e.get('next_episode'), a))
+    out.sort(key=lambda x: x[0])
+    return out
+
+
+def calendar():
+    today = datetime.date.today()
+    days = {}
+    for ts, _, _ in _cal_entries():
+        d = datetime.date.fromtimestamp(ts)
+        if d >= today:
+            days[d] = days.get(d, 0) + 1
+    debug('calendar: %d days' % len(days))
+    if not days:
+        utils.notify(tr(30214))
+    for d in sorted(days):
+        delta = (d - today).days
+        name = tr(30019) if delta == 0 else tr(30020) if delta == 1 else tr(30021 + d.weekday())
+        li = xbmcgui.ListItem('%s · %s (%d)' % (name, d.strftime('%d.%m'), days[d]))
+        li.setArt({'icon': 'DefaultYear.png', 'thumb': 'DefaultYear.png'})
+        xbmcplugin.addDirectoryItem(HANDLE, url(action='calendar_day', day=d.isoformat()), li, True)
+    _end()
+
+
+def calendar_day(p):
+    day = datetime.date.fromisoformat(p['day'])
+    rows = [r for r in _cal_entries() if datetime.date.fromtimestamp(r[0]) == day]
+    details = shiki.details([a['id'] for _, _, a in rows]) if rows else {}
+    for ts, ep, a in rows:
+        li = _anime_item(a, details.get(a['id']))
+        li.setLabel2(tr(30028).format(ep, datetime.datetime.fromtimestamp(ts).strftime('%H:%M')))
+        xbmcplugin.addDirectoryItem(HANDLE, url(action='anime', id=a['id']), li, True)
+    _end('tvshows')
+
+
 def _info_for(det):
     full, roles = det
-    inf = info.build(full, roles, utils.get_int('title_lang') != 1)
+    inf = info.build(full, roles, utils.use_ru())
     return inf, info.make_actors(inf)
 
 
@@ -671,6 +712,10 @@ def route(p):
             seasons()
         elif action == 'genres':
             genres()
+        elif action == 'calendar':
+            calendar()
+        elif action == 'calendar_day':
+            calendar_day(p)
         elif action == 'search':
             search(p)
         elif action == 'anime':
@@ -681,6 +726,8 @@ def route(p):
             pick_voice(p)
         elif action == 'switch':
             switch(p)
+        elif action == 'web_setup':
+            webcfg.request()
         elif action == 'keymap_setup':
             keymap.setup()
         elif action == 'keymap_remove':

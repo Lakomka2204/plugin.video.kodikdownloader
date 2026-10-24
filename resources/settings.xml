@@ -63,7 +63,7 @@
           <level>0</level>
           <default></default>
           <constraints><allowempty>true</allowempty></constraints>
-          <control type="edit" format="string"><heading>30111</heading></control>
+          <control type="edit" format="string"><heading>30111</heading><hidden>true</hidden></control>
         </setting>
       </group>
     </category>
@@ -73,7 +73,13 @@
           <level>0</level>
           <default></default>
           <constraints><allowempty>true</allowempty></constraints>
-          <control type="edit" format="string"><heading>30113</heading></control>
+          <control type="edit" format="string"><heading>30113</heading><hidden>true</hidden></control>
+        </setting>
+        <setting id="web_setup" type="action" label="30031">
+          <level>0</level>
+          <data>RunPlugin(plugin://plugin.video.kodikdownloader/?action=web_setup)</data>
+          <constraints><allowempty>true</allowempty></constraints>
+          <control type="button" format="action"><close>true</close></control>
         </setting>
         <setting id="kodik_base" type="string" label="30114">
           <level>0</level>

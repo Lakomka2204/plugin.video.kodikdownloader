@@ -43,6 +43,8 @@ def get_bool(key, default=False):
 def log(msg, level=xbmc.LOGINFO):
     xbmc.log('[%s] %s' % (ID, msg), level)
 
+def use_ru():
+    return True
 
 _DEBUG = None
 

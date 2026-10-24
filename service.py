@@ -3,7 +3,7 @@ import time
 import xbmc
 import xbmcaddon
 
-from lib import cache, master, shikimori, utils, watched
+from lib import cache, master, shikimori, utils, watched, webcfg
 
 SAVE_EVERY = 30  # seconds between progress saves while playing
 CAL_EVERY = 1800  # seconds between new-episode checks
@@ -170,17 +170,20 @@ def run():
     watcher = Watcher()
     server = master.start()
     utils.debug('service started (master server %s)' % ('on' if server else 'OFF'))
+    web = webcfg.Manager()
     next_cal = time.time() + 60
     while not monitor.abortRequested():
         if monitor.waitForAbort(1):
             break
         watcher.tick()
+        web.tick()
         if time.time() >= next_cal and not watcher.isPlayingVideo():
             next_cal = time.time() + CAL_EVERY
             try:
                 check_new_episodes()
             except Exception:
                 utils.log_exc('service check_new_episodes')
+    web.stop()
     master.stop(server)
     utils.debug('service stopped')
 

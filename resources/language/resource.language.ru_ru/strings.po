@@ -407,3 +407,19 @@ msgstr "{}: вышла серия {}"
 msgctxt "#30030"
 msgid "Notify about new episodes"
 msgstr "Уведомлять о новых сериях"
+
+msgctxt "#30031"
+msgid "Set up from phone/PC (web page)"
+msgstr "Настроить с телефона/ПК (веб-страница)"
+
+msgctxt "#30032"
+msgid "Web setup is unavailable: the addon service is not running"
+msgstr "Веб-настройка недоступна: не запущен сервис аддона"
+
+msgctxt "#30033"
+msgid "Settings saved from the web page"
+msgstr "Настройки сохранены с веб-страницы"
+
+msgctxt "#30034"
+msgid "Open in a browser on a device in the same network:\n{}\nCode: {}\nActive for {} min."
+msgstr "Откройте в браузере на устройстве в той же сети:\n{}\nКод: {}\nДействует {} мин."
