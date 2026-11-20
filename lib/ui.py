@@ -716,6 +716,8 @@ def route(p):
             calendar()
         elif action == 'calendar_day':
             calendar_day(p)
+        elif action == 'web_setup':
+            webcfg.request()
         elif action == 'search':
             search(p)
         elif action == 'anime':
@@ -726,8 +728,6 @@ def route(p):
             pick_voice(p)
         elif action == 'switch':
             switch(p)
-        elif action == 'web_setup':
-            webcfg.request()
         elif action == 'keymap_setup':
             keymap.setup()
         elif action == 'keymap_remove':

@@ -1,4 +1,6 @@
+import datetime
 import json
+import re
 import time
 
 
@@ -78,6 +80,34 @@ def genres():
     if not utils.adult_allowed():
         data = [g for g in data if g['name'] not in _ADULT_GENRES]
     return data
+
+
+_TIME_RE = re.compile(r'(\d{4})-(\d\d)-(\d\d)[T ](\d\d):(\d\d)(?::(\d\d))?(?:\.\d+)?\s*(Z|[+-]\d\d:?\d\d)?$')
+
+
+def parse_time(text):
+    """ISO date-time -> epoch seconds (None if unparsable)."""
+    m = _TIME_RE.match(text or '')
+    if not m:
+        return None
+    y, mo, d, h, mi, sec, tz = m.groups()
+    off = 0
+    if tz and tz != 'Z':
+        digits = tz[1:].replace(':', '')
+        off = (int(digits[:2]) * 60 + int(digits[2:])) * 60 * (1 if tz[0] == '+' else -1)
+    zone = datetime.timezone(datetime.timedelta(seconds=off))
+    try:
+        return datetime.datetime(int(y), int(mo), int(d), int(h), int(mi), int(sec or 0), tzinfo=zone).timestamp()
+    except (ValueError, OverflowError):
+        return None
+
+
+def calendar(fresh=False):
+    """Upcoming episodes of ongoing anime: [{next_episode, next_episode_at, anime{...}}].
+    fresh=True (service): no cache, no 18+ dialog."""
+    if fresh:
+        return _request('/api/calendar', {'censored': 'false'})
+    return _get('/api/calendar', {'censored': 'false' if utils.adult_allowed() else 'true'})
 
 
 def get_anime(anime_id):

@@ -40,11 +40,28 @@ def get_bool(key, default=False):
         return default
 
 
+def use_ru():
+    """Russian or Latin names/genres: setting 'Title language' (0 auto by Kodi language, 1 Latin, 2 Russian)."""
+    mode = get_int('title_lang')
+    if mode == 1:
+        return False
+    if mode == 2:
+        return True
+    try:
+        return xbmc.getLanguage(xbmc.ISO_639_1).lower().startswith('ru')
+    except Exception:
+        return False
+
+
+def anime_title(a):
+    if use_ru():
+        return a.get('russian') or a.get('name') or '?'
+    return a.get('name') or a.get('russian') or '?'
+
+
 def log(msg, level=xbmc.LOGINFO):
     xbmc.log('[%s] %s' % (ID, msg), level)
 
-def use_ru():
-    return True
 
 _DEBUG = None
 

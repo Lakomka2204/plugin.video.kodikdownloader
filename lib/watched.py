@@ -139,6 +139,15 @@ def recent(limit=30):
     return [(sid, a) for _, sid, a in rows[:limit]]
 
 
+def followed():
+    """Shikimori ids (int) of every anime that has any watch history."""
+    out = set()
+    for sid, a in _load()['anime'].items():
+        if sid.isdigit() and (a.get('last') or any(e.get('w') or e.get('pos', 0) > 0 for e in a.get('eps', {}).values())):
+            out.add(int(sid))
+    return out
+
+
 # ----------------------------------------------------------------- writes
 def set_meta(sid, name, poster, count, lo=None, hi=None):
     """Remember title/poster/episode count and number range for the 'Continue watching' menu.
